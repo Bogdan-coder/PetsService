@@ -1,6 +1,16 @@
 package pets.version1.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import pets.version1.dao.MessageRepository;
 import pets.version1.dto.NewPostDto;
@@ -8,6 +18,7 @@ import pets.version1.dto.PostDto;
 import pets.version1.model.Post;
 import pets.version1.exception.*;
 
+@Service
 public class MessageServiceImpl implements MessageService {
 
 	@Autowired
@@ -37,6 +48,44 @@ public class MessageServiceImpl implements MessageService {
 		Post post = messageRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
 		return convertToPostDto(post);
 	}
+	
+	
+	@Override
+	public PostDto removePost(String id) {
+		Post post = messageRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
+		messageRepository.delete(post);
+		return convertToPostDto(post);
+	}
+
+	@Override
+	public PostDto updatePost(NewPostDto postUpdateDto, String id) {
+		Post post = messageRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
+		String text = postUpdateDto.getText();
+		if (text != null) {
+			post.setText(text);
+		}
+		
+		List<String> images = postUpdateDto.getImages();
+		if (images != null) {
+			images.forEach(post::removeImage);
+			images.forEach(post::addImage);
+		}
+		messageRepository.save(post);
+		return convertToPostDto(post);
+	}
+
+	
+    public List<PostDto> getAllPosts(Integer pageNo, Integer pageSize, String sortBy)
+    {
+    	Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("id").descending());
+ 
+    	Page<Post> pagedResult = messageRepository.findAll(paging);
+
+            return pagedResult.getContent().stream()
+            		.map(this::convertToPostDto)
+    				.collect(Collectors.toList());
+
+    }
 	
 	
 

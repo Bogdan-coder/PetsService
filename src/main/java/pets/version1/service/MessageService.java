@@ -1,5 +1,6 @@
 package pets.version1.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import pets.version1.dto.NewPostDto;
@@ -13,9 +14,12 @@ public interface MessageService {
 
 	PostDto getPost(String id);
 
-//	PostDto removePost(String id);
-//
-//	PostDto updatePost(NewPostDto postUpdateDto, String id);
+	PostDto removePost(String id);
+
+	PostDto updatePost(NewPostDto postUpdateDto, String id);
+	
+	List<PostDto> getAllPosts(Integer pageNo, Integer pageSize, String sortBy);
+	
 //
 //	Iterable<PostDto> findPostsByAuthor(String author);
 //	

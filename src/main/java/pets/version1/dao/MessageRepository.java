@@ -1,14 +1,12 @@
 package pets.version1.dao;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import pets.version1.model.Post;
 
-public interface MessageRepository extends MongoRepository<Post, String> {
+public interface MessageRepository extends MongoRepository<Post, String>, PagingAndSortingRepository<Post, String> {
 
 //    Stream<Post> findByAuthor(String author);
 //	
