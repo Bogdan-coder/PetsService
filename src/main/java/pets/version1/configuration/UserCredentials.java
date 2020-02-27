@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class UserCredentials {
-	String login;
+	String email;
 	String password;
 
 }

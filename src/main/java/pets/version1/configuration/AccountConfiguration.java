@@ -2,12 +2,10 @@ package pets.version1.configuration;
 
 import java.util.Base64;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
-import pets.version1.exception.*;
+import pets.version1.exception.UserAuthenticationException;
 
 @Configuration
 @ManagedResource

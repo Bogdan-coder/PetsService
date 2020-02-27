@@ -1,6 +1,7 @@
 package pets.version1.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -19,17 +20,20 @@ import lombok.Singular;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode(of = {"login"})
-@Document(collection = "forum_users")
+@EqualsAndHashCode(of = {"email"})
+@Document(collection = "users")
 public class UserAccount {
 	@Id
-	String login;
+	String email;
 	String password;
+	String avatar;
+	String name;
+	String phone;
+	Boolean block;
 	@Singular
-	Set<String> roles;
-	LocalDateTime expDate;
-	String firstName;
-	String lastName;
+	List<String> roles;
+
+
 	
 	public boolean addRole(String role) {
 		return roles.add(role);
@@ -37,6 +41,14 @@ public class UserAccount {
 	
 	public boolean removeRole(String role) {
 		return roles.remove(role);
+	}
+	
+	public boolean addBlockUser() {
+		return block.equals(true);
+	}
+	
+	public boolean removeBlockUser() {
+		return block.equals(false);
 	}
 
 }
